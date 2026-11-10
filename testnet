@@ -1,0 +1,58 @@
+#!/bin/bash
+
+PHYSICAL_ONLY=false
+PING_TEST=false
+PING_TARGET="8.8.8.8"
+
+# Parse arguments
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        -p|--physical)
+            PHYSICAL_ONLY=true
+            shift
+            ;;
+        -t|--test)
+            PING_TEST=true
+            shift
+            ;;
+        -d|--destination)
+            PING_TARGET="$2"
+            shift 2
+            ;;
+        *)
+            echo "Unknown option: $1"
+            exit 1
+            ;;
+    esac
+done
+
+for iface in /sys/class/net/*; do
+    name=$(basename "$iface")
+
+    # Skip virtual interfaces if physical only
+    if $PHYSICAL_ONLY && [[ ! -e "$iface/device" ]]; then
+        continue
+    fi
+
+    echo "Interface: $name"
+
+    # Get IPv4 address
+    ip -4 addr show "$name" | grep "inet " || echo "No IPv4 address"
+
+    # Get interface status
+    status=$(cat "$iface/operstate")
+    echo "Status: $status"
+
+    # Ping through this interface
+    if $PING_TEST; then
+        echo "Pinging $PING_TARGET via $name..."
+
+        if ping -I "$name" -c 2 -W 2 "$PING_TARGET" > /dev/null 2>&1; then
+            echo "PING: SUCCESS"
+        else
+            echo "PING: FAILED"
+        fi
+    fi
+
+    echo "-------------------"
+done
