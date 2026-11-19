@@ -3,7 +3,7 @@ import sys
 
 def tcp_client():
     HOST = sys.argv[1] if len(sys.argv) > 1 else "127.0.0.1"
-    PORT = 6006
+    PORT = 5000
 
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         s.settimeout(5)
