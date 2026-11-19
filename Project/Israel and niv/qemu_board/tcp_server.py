@@ -27,14 +27,12 @@ while True:
     # מחכה עד שלקוח מתחבר. conn = הערוץ ללקוח הזה, addr = הכתובת שלו
     print("Connected:", addr)
 
-        while data := conn.recv(1024):
+    while data := conn.recv(1024):
         # מקבל הודעה אחרי הודעה, עד שהלקוח סוגר (recv מחזיר b"")
         print("Received:", data)
         conn.sendall(data)
         # מחזיר ללקוח בדיוק את מה שהוא שלח (echo)
 
-    conn.sendall(data)
-    # מחזיר ללקוח בדיוק את מה שהוא שלח (echo)
-
     conn.close()
     # סוגר את החיבור עם הלקוח הזה, וחוזר לחכות ללקוח הבא
+    print("Closed:", addr)
