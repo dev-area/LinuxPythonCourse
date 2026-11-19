@@ -21,7 +21,7 @@ import time
 def run_serial_app():
     # 1. Prompt user for setup details
     port = "/dev/pts/7"
-    baud = 115200
+    baud = 9600
     
     try:
         # 2. Initialize and open the serial port
