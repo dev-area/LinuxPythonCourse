@@ -7,8 +7,8 @@
 ## מבנה בסיסי – `if`
 
 ```bash
-if [ תנאי ]; then
-    # קוד שרץ אם התנאי נכון
+if [ condition ]; then
+    # code that runs if the condition is true
 fi
 ```
 
@@ -21,7 +21,7 @@ fi
 age=20
 
 if [ "$age" -ge 18 ]; then
-    echo "בגיר/ה"
+    echo "Adult"
 fi
 ```
 
@@ -32,9 +32,9 @@ fi
 age=15
 
 if [ "$age" -ge 18 ]; then
-    echo "בגיר/ה"
+    echo "Adult"
 else
-    echo "קטין/ה"
+    echo "Minor"
 fi
 ```
 
@@ -45,13 +45,13 @@ fi
 grade=75
 
 if [ "$grade" -ge 90 ]; then
-    echo "מצוין"
+    echo "Excellent"
 elif [ "$grade" -ge 70 ]; then
-    echo "טוב"
+    echo "Good"
 elif [ "$grade" -ge 60 ]; then
-    echo "עובר"
+    echo "Pass"
 else
-    echo "נכשל"
+    echo "Fail"
 fi
 ```
 
@@ -81,14 +81,14 @@ fi
 
 ```bash
 #!/bin/bash
-name="דנה"
+name="Dana"
 
-if [ "$name" = "דנה" ]; then
-    echo "שלום דנה!"
+if [ "$name" = "Dana" ]; then
+    echo "Hello Dana!"
 fi
 
 if [ -z "$password" ]; then
-    echo "לא הוזנה סיסמה"
+    echo "No password entered"
 fi
 ```
 
@@ -111,9 +111,9 @@ fi
 file="data.txt"
 
 if [ -f "$file" ]; then
-    echo "הקובץ קיים"
+    echo "The file exists"
 else
-    echo "הקובץ לא נמצא"
+    echo "File not found"
 fi
 ```
 
@@ -133,11 +133,11 @@ age=25
 has_license="yes"
 
 if [ "$age" -ge 18 ] && [ "$has_license" = "yes" ]; then
-    echo "מותר לנהוג"
+    echo "Allowed to drive"
 fi
 
 if [ "$age" -lt 16 ] || [ "$age" -gt 120 ]; then
-    echo "גיל לא סביר לנהיגה"
+    echo "Unreasonable age for driving"
 fi
 ```
 
@@ -145,7 +145,7 @@ fi
 > ומאפשרים לכתוב `&&` ו‑`||` בתוך אותם סוגריים:
 > ```bash
 > if [[ "$age" -ge 18 && "$has_license" = "yes" ]]; then
->     echo "מותר לנהוג"
+>     echo "Allowed to drive"
 > fi
 > ```
 
@@ -157,20 +157,20 @@ fi
 
 ```bash
 #!/bin/bash
-read -p "בחרו אפשרות (a/b/c): " choice
+read -p "Choose an option (a/b/c): " choice
 
 case "$choice" in
     a)
-        echo "בחרת A"
+        echo "You chose A"
         ;;
     b)
-        echo "בחרת B"
+        echo "You chose B"
         ;;
     c)
-        echo "בחרת C"
+        echo "You chose C"
         ;;
     *)
-        echo "בחירה לא חוקית"
+        echo "Invalid choice"
         ;;
 esac
 ```
@@ -185,10 +185,10 @@ esac
 
 כתבו סקריפט `filecheck.sh` שמקבל שם קובץ כארגומנט (`$1`) ו:
 
-1. אם לא הועבר ארגומנט כלל – ידפיס "אנא ספקו שם קובץ" ויצא.
-2. אם הקובץ לא קיים – ידפיס "הקובץ לא קיים".
-3. אם הקובץ קיים אך ריק – ידפיס "הקובץ ריק".
-4. אם הקובץ קיים ולא ריק – ידפיס "הקובץ קיים ומכיל נתונים".
+1. אם לא הועבר ארגומנט כלל – ידפיס "Please provide a file name" ויצא.
+2. אם הקובץ לא קיים – ידפיס "File does not exist".
+3. אם הקובץ קיים אך ריק – ידפיס "File is empty".
+4. אם הקובץ קיים ולא ריק – ידפיס "File exists and contains data".
 
 נסו לבד! 👇
 
@@ -201,19 +201,19 @@ esac
 
 filename="$1"
 
-# 1. בדיקה שהועבר ארגומנט (מחרוזת ריקה?)
+# 1. Check an argument was passed (empty string?)
 if [ -z "$filename" ]; then
-    echo "אנא ספקו שם קובץ"
+    echo "Please provide a file name"
     exit 1
 fi
 
-# 2-4. בדיקות על הקובץ
+# 2-4. Checks on the file
 if [ ! -e "$filename" ]; then
-    echo "הקובץ לא קיים"
+    echo "File does not exist"
 elif [ ! -s "$filename" ]; then
-    echo "הקובץ ריק"
+    echo "File is empty"
 else
-    echo "הקובץ קיים ומכיל נתונים"
+    echo "File exists and contains data"
 fi
 ```
 
@@ -221,12 +221,12 @@ fi
 
 ```bash
 chmod +x filecheck.sh
-./filecheck.sh                 # בלי ארגומנט
-./filecheck.sh nofile.txt      # קובץ שלא קיים
+./filecheck.sh                 # no argument
+./filecheck.sh nofile.txt      # a file that doesn't exist
 touch empty.txt
-./filecheck.sh empty.txt       # קובץ ריק
+./filecheck.sh empty.txt       # an empty file
 echo "hello" > data.txt
-./filecheck.sh data.txt        # קובץ עם תוכן
+./filecheck.sh data.txt        # a file with content
 ```
 
 **מה למדנו:** שילוב של בדיקת מחרוזת ריקה (`-z`), קיום קובץ (`-e`), גודל (`-s`) ושלילה (`!`).

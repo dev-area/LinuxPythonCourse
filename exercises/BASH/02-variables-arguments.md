@@ -7,17 +7,17 @@
 **משתנה** הוא שם ששומר ערך. ב‑BASH מגדירים משתנה **בלי רווחים** סביב ה‑`=`:
 
 ```bash
-name="דנה"
+name="Dana"
 age=25
 ```
 
-> חשוב: `name = "דנה"` (עם רווחים) **לא יעבוד**! חייב להיות צמוד: `name="דנה"`.
+> חשוב: `name = "Dana"` (עם רווחים) **לא יעבוד**! חייב להיות צמוד: `name="Dana"`.
 
 כדי **לקרוא** את ערך המשתנה, מוסיפים `$` לפני השם:
 
 ```bash
 echo "$name"
-echo "הגיל הוא $age"
+echo "The age is $age"
 ```
 
 דוגמה להעתקה והרצה (קובץ `vars.sh`):
@@ -25,14 +25,14 @@ echo "הגיל הוא $age"
 ```bash
 #!/bin/bash
 
-name="דנה"
+name="Dana"
 age=25
 
-echo "שם: $name"
-echo "גיל: $age"
+echo "Name: $name"
+echo "Age: $age"
 
-# מומלץ לעטוף בסוגריים מסולסלים כשמצמידים טקסט
-echo "בעוד שנה היא תהיה בת ${age} ועוד קצת"
+# It is recommended to wrap in curly braces when attaching text
+echo "Next year she will be ${age} and a bit"
 ```
 
 ### גרשיים – ההבדל החשוב
@@ -43,8 +43,8 @@ echo "בעוד שנה היא תהיה בת ${age} ועוד קצת"
 ```bash
 #!/bin/bash
 word="BASH"
-echo "אני לומד $word"   # ידפיס: אני לומד BASH
-echo 'אני לומד $word'   # ידפיס: אני לומד $word
+echo "I am learning $word"   # prints: I am learning BASH
+echo 'I am learning $word'   # prints: I am learning $word
 ```
 
 ### קליטת פלט של פקודה למשתנה
@@ -54,8 +54,8 @@ echo 'אני לומד $word'   # ידפיס: אני לומד $word
 today=$(date +%Y-%m-%d)
 files_count=$(ls | wc -l)
 
-echo "התאריך היום: $today"
-echo "מספר הקבצים בתיקייה: $files_count"
+echo "Today's date: $today"
+echo "Number of files in the folder: $files_count"
 ```
 
 - `$(command)` מריץ את הפקודה ושם את הפלט שלה במשתנה.
@@ -85,11 +85,11 @@ echo "מספר הקבצים בתיקייה: $files_count"
 ```bash
 #!/bin/bash
 
-echo "שם הסקריפט: $0"
-echo "ארגומנט ראשון: $1"
-echo "ארגומנט שני: $2"
-echo "מספר הארגומנטים: $#"
-echo "כל הארגומנטים: $@"
+echo "Script name: $0"
+echo "First argument: $1"
+echo "Second argument: $2"
+echo "Number of arguments: $#"
+echo "All arguments: $@"
 ```
 
 הרצה:
@@ -102,18 +102,18 @@ chmod +x args.sh
 פלט צפוי:
 
 ```
-שם הסקריפט: ./args.sh
-ארגומנט ראשון: apple
-ארגומנט שני: banana
-מספר הארגומנטים: 2
-כל הארגומנטים: apple banana
+Script name: ./args.sh
+First argument: apple
+Second argument: banana
+Number of arguments: 2
+All arguments: apple banana
 ```
 
 ### מעבר על כל הארגומנטים
 
 ```bash
 #!/bin/bash
-echo "קיבלתי $# פריטים:"
+echo "I received $# items:"
 for item in "$@"; do
     echo " - $item"
 done
@@ -131,20 +131,20 @@ done
 ```bash
 #!/bin/bash
 
-# קובעים ידנית את הארגומנטים
+# Set the arguments manually
 set -- red green blue
 
-echo "עכשיו \$1 הוא: $1"
-echo "עכשיו \$2 הוא: $2"
-echo "מספר הפריטים: $#"
+echo "Now \$1 is: $1"
+echo "Now \$2 is: $2"
+echo "Number of items: $#"
 ```
 
 פלט:
 
 ```
-עכשיו $1 הוא: red
-עכשיו $2 הוא: green
-מספר הפריטים: 3
+Now $1 is: red
+Now $2 is: green
+Number of items: 3
 ```
 
 ### שימוש אמיתי – פירוק מחרוזת
@@ -156,12 +156,12 @@ echo "מספר הפריטים: $#"
 
 date_str="2026-11-21"
 
-# מחליפים את ה- "-" ברווח, ומפצלים את המחרוזת לארגומנטים
+# Split the string into arguments using "-" as the separator
 IFS='-' set -- $date_str
 
-echo "שנה:  $1"
-echo "חודש: $2"
-echo "יום:  $3"
+echo "Year:  $1"
+echo "Month: $2"
+echo "Day:   $3"
 ```
 
 > `IFS` (Internal Field Separator) קובע לפי איזה תו לפצל. כאן בחרנו ב‑`-`.
@@ -175,7 +175,7 @@ echo "יום:  $3"
 
 כתבו סקריפט `fullname.sh` ש:
 
-1. מקבל שם מלא כארגומנט אחד במרכאות, לדוגמה: `./fullname.sh "ישראל ישראלי"`.
+1. מקבל שם מלא כארגומנט אחד במרכאות, לדוגמה: `./fullname.sh "Israel Israeli"`.
 2. משתמש ב‑`set --` כדי לפצל את השם הפרטי ושם המשפחה.
 3. מדפיס:
    - שם פרטי
@@ -185,10 +185,10 @@ echo "יום:  $3"
 דוגמה להרצה ולפלט:
 
 ```
-./fullname.sh "ישראל ישראלי"
-שם פרטי: ישראל
-שם משפחה: ישראלי
-מספר מילים: 2
+./fullname.sh "Israel Israeli"
+First name: Israel
+Last name: Israeli
+Word count: 2
 ```
 
 נסו לבד! 👇
@@ -200,22 +200,22 @@ echo "יום:  $3"
 ```bash
 #!/bin/bash
 
-# הארגומנט המלא מגיע ב-$1 (כי הוא עטוף במרכאות)
+# The full argument arrives in $1 (because it is wrapped in quotes)
 full_name="$1"
 
-# מפצלים לפי רווח: set -- מפזר את המחרוזת למילים נפרדות
+# Split by spaces: set -- scatters the string into separate words
 set -- $full_name
 
-echo "שם פרטי: $1"
-echo "שם משפחה: $2"
-echo "מספר מילים: $#"
+echo "First name: $1"
+echo "Last name: $2"
+echo "Word count: $#"
 ```
 
 הרצה:
 
 ```bash
 chmod +x fullname.sh
-./fullname.sh "ישראל ישראלי"
+./fullname.sh "Israel Israeli"
 ```
 
 **מה למדנו:** `set --` הופך מחרוזת אחת לרשימת ארגומנטים ניתנת לגישה דרך `$1`, `$2`, `$#`.

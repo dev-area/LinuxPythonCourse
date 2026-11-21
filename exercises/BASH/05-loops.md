@@ -10,16 +10,16 @@
 #!/bin/bash
 
 for fruit in apple banana cherry; do
-    echo "פרי: $fruit"
+    echo "Fruit: $fruit"
 done
 ```
 
 פלט:
 
 ```
-פרי: apple
-פרי: banana
-פרי: cherry
+Fruit: apple
+Fruit: banana
+Fruit: cherry
 ```
 
 ### לולאת `for` על טווח מספרים
@@ -28,7 +28,7 @@ done
 #!/bin/bash
 
 for i in {1..5}; do
-    echo "מספר: $i"
+    echo "Number: $i"
 done
 ```
 
@@ -41,7 +41,7 @@ done
 #!/bin/bash
 
 for (( i=1; i<=5; i++ )); do
-    echo "איטרציה מספר $i"
+    echo "Iteration number $i"
 done
 ```
 
@@ -50,14 +50,14 @@ done
 ```bash
 #!/bin/bash
 
-# על כל הארגומנטים של הסקריפט
+# Over all the script's arguments
 for arg in "$@"; do
-    echo "קיבלתי: $arg"
+    echo "Received: $arg"
 done
 
-# על כל קבצי ה-.txt בתיקייה
+# Over all .txt files in the folder
 for file in *.txt; do
-    echo "נמצא קובץ: $file"
+    echo "Found file: $file"
 done
 ```
 
@@ -70,8 +70,8 @@ done
 
 count=1
 while [ "$count" -le 5 ]; do
-    echo "ספירה: $count"
-    count=$((count + 1))   # הגדלה ב-1
+    echo "Counting: $count"
+    count=$((count + 1))   # increment by 1
 done
 ```
 
@@ -85,7 +85,7 @@ done
 #!/bin/bash
 
 while read -r line; do
-    echo "שורה: $line"
+    echo "Line: $line"
 done < "names.txt"
 ```
 
@@ -103,7 +103,7 @@ done < "names.txt"
 
 count=1
 until [ "$count" -gt 5 ]; do
-    echo "ערך: $count"
+    echo "Value: $count"
     count=$((count + 1))
 done
 ```
@@ -120,16 +120,16 @@ done
 
 for i in {1..10}; do
     if [ "$i" -eq 8 ]; then
-        echo "הגעתי ל-8, עוצר"
+        echo "Reached 8, stopping"
         break
     fi
 
-    # דילוג על מספרים זוגיים
+    # Skip even numbers
     if [ $((i % 2)) -eq 0 ]; then
         continue
     fi
 
-    echo "מספר אי-זוגי: $i"
+    echo "Odd number: $i"
 done
 ```
 
@@ -146,7 +146,7 @@ square() {
 
 for n in 1 2 3 4 5; do
     result=$(square "$n")
-    echo "$n בריבוע = $result"
+    echo "$n squared = $result"
 done
 ```
 
@@ -167,7 +167,7 @@ done
 3 x 2 = 6
 ...
 3 x 10 = 30
-סך הכל: 165
+Total: 165
 ```
 
 נסו לבד! 👇
@@ -181,9 +181,9 @@ done
 
 num="$1"
 
-# בדיקה שהוזן מספר
+# Check a number was provided
 if [ -z "$num" ]; then
-    echo "אנא ספקו מספר"
+    echo "Please provide a number"
     exit 1
 fi
 
@@ -195,7 +195,7 @@ for i in {1..10}; do
     total=$(( total + result ))
 done
 
-echo "סך הכל: $total"
+echo "Total: $total"
 ```
 
 הרצה:

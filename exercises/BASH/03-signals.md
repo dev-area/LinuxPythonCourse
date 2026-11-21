@@ -26,9 +26,9 @@
 למרות השם, `kill` פשוט **שולחת סיגנל** לתהליך לפי מספר התהליך (PID):
 
 ```bash
-kill 12345          # שולח SIGTERM (ברירת מחדל) לתהליך 12345
-kill -9 12345       # שולח SIGKILL
-kill -SIGINT 12345  # שולח SIGINT
+kill 12345          # sends SIGTERM (default) to process 12345
+kill -9 12345       # sends SIGKILL
+kill -SIGINT 12345  # sends SIGINT
 ```
 
 כדי למצוא PID של תהליך:
@@ -45,7 +45,7 @@ ps aux | grep myscript
 התחביר:
 
 ```bash
-trap 'פקודות' SIGNAL
+trap 'commands' SIGNAL
 ```
 
 דוגמה להעתקה והרצה (קובץ `trap_demo.sh`):
@@ -53,17 +53,17 @@ trap 'פקודות' SIGNAL
 ```bash
 #!/bin/bash
 
-# כשמגיע SIGINT (Ctrl+C) – נריץ את הקוד הזה במקום להיעצר מיד
-trap 'echo ""; echo "תפסתי Ctrl+C! אבל אני עדיין כאן 😎"' SIGINT
+# When SIGINT (Ctrl+C) arrives, run this code instead of stopping immediately
+trap 'echo ""; echo "Caught Ctrl+C! But I am still here :)"' SIGINT
 
-echo "הסקריפט רץ. נסו ללחוץ Ctrl+C..."
-echo "(כדי לצאת באמת, סגרו את הטרמינל או שלחו kill)"
+echo "The script is running. Try pressing Ctrl+C..."
+echo "(To really exit, close the terminal or send kill)"
 
-# לולאה אינסופית כדי שהסקריפט ימשיך לרוץ
+# Infinite loop to keep the script running
 count=0
 while true; do
     count=$((count + 1))
-    echo "פועם... $count"
+    echo "Tick... $count"
     sleep 2
 done
 ```
@@ -80,17 +80,17 @@ done
 ```bash
 #!/bin/bash
 
-tmpfile="/tmp/mydata_$$"   # $$ הוא ה-PID של הסקריפט (שם ייחודי)
+tmpfile="/tmp/mydata_$$"   # $$ is the PID of the script (a unique name)
 
-# הקוד הזה ירוץ בכל יציאה – רגילה או עקב סיגנל
-trap 'echo "מנקה..."; rm -f "$tmpfile"' EXIT
+# This code runs on any exit, whether normal or due to a signal
+trap 'echo "Cleaning up..."; rm -f "$tmpfile"' EXIT
 
-echo "נתונים זמניים" > "$tmpfile"
-echo "הקובץ הזמני נוצר: $tmpfile"
+echo "Temporary data" > "$tmpfile"
+echo "Temp file created: $tmpfile"
 cat "$tmpfile"
 
-echo "מסיים עבודה."
-# כאן ה-trap ירוץ אוטומטית וימחק את הקובץ
+echo "Finishing work."
+# Here the trap runs automatically and deletes the file
 ```
 
 ---
@@ -100,7 +100,7 @@ echo "מסיים עבודה."
 כדי לבטל לכידה ולחזור להתנהגות הרגילה:
 
 ```bash
-trap - SIGINT    # מחזיר את SIGINT להתנהגות ברירת המחדל
+trap - SIGINT    # restores SIGINT to its default behavior
 ```
 
 ---
@@ -112,7 +112,7 @@ trap - SIGINT    # מחזיר את SIGINT להתנהגות ברירת המחדל
 1. יוצר קובץ זמני בשם `work.tmp` עם תוכן כלשהו.
 2. מגדיר `trap` שימחק את הקובץ הזמני ביציאה (`EXIT`).
 3. מגדיר `trap` נוסף: אם המשתמש לוחץ `Ctrl+C` (`SIGINT`), ידפיס
-   "העבודה בוטלה על ידי המשתמש" ואז יצא.
+   "Work cancelled by the user" ואז יצא.
 4. מדמה עבודה: לולאה שסופרת מ‑1 עד 5 עם `sleep 1` בין מספר למספר, ומדפיסה כל מספר.
 
 נסו ללחוץ `Ctrl+C` באמצע ולראות שהקובץ נמחק בכל זאת.
@@ -128,23 +128,23 @@ trap - SIGINT    # מחזיר את SIGINT להתנהגות ברירת המחדל
 
 tmpfile="work.tmp"
 
-# ניקוי בכל יציאה – רגילה או מאולצת
-trap 'echo "מנקה קובץ זמני..."; rm -f "$tmpfile"' EXIT
+# Clean up on any exit, normal or forced
+trap 'echo "Cleaning up temp file..."; rm -f "$tmpfile"' EXIT
 
-# תגובה ל-Ctrl+C: הודעה ויציאה (היציאה תפעיל גם את trap EXIT)
-trap 'echo ""; echo "העבודה בוטלה על ידי המשתמש"; exit 1' SIGINT
+# Respond to Ctrl+C: message and exit (exit also triggers the EXIT trap)
+trap 'echo ""; echo "Work cancelled by the user"; exit 1' SIGINT
 
-# יצירת הקובץ הזמני
-echo "נתוני עבודה" > "$tmpfile"
-echo "התחלתי לעבוד (קובץ: $tmpfile)"
+# Create the temp file
+echo "Work data" > "$tmpfile"
+echo "Started working (file: $tmpfile)"
 
-# סימולציה של עבודה
+# Simulate work
 for i in 1 2 3 4 5; do
-    echo "מעבד שלב $i..."
+    echo "Processing step $i..."
     sleep 1
 done
 
-echo "העבודה הסתיימה בהצלחה!"
+echo "Work finished successfully!"
 ```
 
 הרצה:

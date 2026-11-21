@@ -32,9 +32,9 @@
 ```bash
 #!/bin/bash
 
-# זו ההערה הראשונה שלנו
+# This is our first comment
 echo "Hello, World!"
-echo "זה הסקריפט הראשון שלי"
+echo "This is my first script"
 ```
 
 - `echo` היא פקודה שמדפיסה טקסט למסך.
@@ -77,7 +77,7 @@ bash hello.sh
 
 ```
 Hello, World!
-זה הסקריפט הראשון שלי
+This is my first script
 ```
 
 ---
@@ -89,7 +89,7 @@ Hello, World!
 
 ```bash
 function_name() {
-    # הפקודות של הפונקציה
+    # the function's commands
 }
 ```
 
@@ -98,18 +98,18 @@ function_name() {
 ```bash
 #!/bin/bash
 
-# הגדרת הפונקציה
+# Define the function
 say_hello() {
-    echo "שלום! ברוכים הבאים ל-BASH"
-    echo "היום אנחנו לומדים פונקציות"
+    echo "Hello! Welcome to BASH"
+    echo "Today we are learning functions"
 }
 
-# קריאה לפונקציה (מריצים אותה)
+# Call the function (run it)
 say_hello
 
 echo "---"
 
-# אפשר לקרוא לה שוב ושוב
+# We can call it again and again
 say_hello
 ```
 
@@ -132,9 +132,9 @@ say_hello
 
 ```
 =============
-שם: דנה
-עיר: חיפה
-תחביב: ציור
+Name: Dana
+City: Haifa
+Hobby: Painting
 =============
 ```
 
@@ -149,19 +149,19 @@ say_hello
 ```bash
 #!/bin/bash
 
-# פונקציה שמדפיסה שורת מפרידים
+# A function that prints a separator line
 print_line() {
     echo "============="
 }
 
-# שימוש ראשון בפונקציה
+# First use of the function
 print_line
 
-echo "שם: דנה"
-echo "עיר: חיפה"
-echo "תחביב: ציור"
+echo "Name: Dana"
+echo "City: Haifa"
+echo "Hobby: Painting"
 
-# שימוש חוזר בפונקציה
+# Reuse of the function
 print_line
 ```
 

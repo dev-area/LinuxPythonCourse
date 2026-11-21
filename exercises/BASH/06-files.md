@@ -8,19 +8,19 @@
 
 | פעולה | פקודה |
 |-------|-------|
-| כתיבה (**דורס** תוכן קיים) | `echo "טקסט" > file.txt` |
-| הוספה (**מוסיף** לסוף) | `echo "טקסט" >> file.txt` |
+| כתיבה (**דורס** תוכן קיים) | `echo "text" > file.txt` |
+| הוספה (**מוסיף** לסוף) | `echo "text" >> file.txt` |
 | יצירת קובץ ריק | `touch file.txt` |
 
 ```bash
 #!/bin/bash
 
-# דריסה – מתחילים קובץ חדש
-echo "שורה ראשונה" > diary.txt
+# Overwrite - start a new file
+echo "First line" > diary.txt
 
-# הוספה – מוסיפים שורות
-echo "שורה שנייה" >> diary.txt
-echo "שורה שלישית" >> diary.txt
+# Append - add more lines
+echo "Second line" >> diary.txt
+echo "Third line" >> diary.txt
 ```
 
 > שימו לב להבדל: `>` **מוחק** מה שהיה בקובץ, `>>` **מוסיף** בסוף.
@@ -31,9 +31,9 @@ echo "שורה שלישית" >> diary.txt
 #!/bin/bash
 
 cat > config.txt << EOF
-שם: דנה
-עיר: חיפה
-תפקיד: מפתחת
+Name: Dana
+City: Haifa
+Role: Developer
 EOF
 ```
 
@@ -49,18 +49,18 @@ EOF
 | `head -n 5 file.txt` | 5 השורות הראשונות |
 | `tail -n 5 file.txt` | 5 השורות האחרונות |
 | `wc -l file.txt` | מספר השורות בקובץ |
-| `grep "מילה" file.txt` | שורות שמכילות את המילה |
+| `grep "word" file.txt` | שורות שמכילות את המילה |
 
 ```bash
 #!/bin/bash
 
-echo "--- כל הקובץ ---"
+echo "--- The whole file ---"
 cat diary.txt
 
-echo "--- 2 שורות ראשונות ---"
+echo "--- First 2 lines ---"
 head -n 2 diary.txt
 
-echo "--- מספר שורות ---"
+echo "--- Number of lines ---"
 wc -l < diary.txt
 ```
 
@@ -87,11 +87,11 @@ done < diary.txt
 file="data.txt"
 
 if [ ! -f "$file" ]; then
-    echo "שגיאה: הקובץ $file לא קיים"
+    echo "Error: the file $file does not exist"
     exit 1
 fi
 
-echo "מעבד את $file..."
+echo "Processing $file..."
 ```
 
 ---
@@ -99,11 +99,11 @@ echo "מעבד את $file..."
 ## פעולות נפוצות נוספות
 
 ```bash
-cp source.txt backup.txt      # העתקה
-mv old.txt new.txt            # העברה / שינוי שם
-rm file.txt                   # מחיקה
-mkdir mydir                   # יצירת תיקייה
-ls -l                         # רשימת קבצים מפורטת
+cp source.txt backup.txt      # copy
+mv old.txt new.txt            # move / rename
+rm file.txt                   # delete
+mkdir mydir                   # create a directory
+ls -l                         # detailed file listing
 ```
 
 ### עיבוד תוכן עם צינורות (pipes)
@@ -113,10 +113,10 @@ ls -l                         # רשימת קבצים מפורטת
 ```bash
 #!/bin/bash
 
-# כמה שורות מכילות את המילה "error" בלוג?
+# How many lines contain the word "error" in the log?
 grep "error" app.log | wc -l
 
-# ממיין קובץ שמות, מסיר כפילויות
+# Sort a names file and remove duplicates
 sort names.txt | uniq
 ```
 
@@ -148,7 +148,7 @@ cherry
 3: cherry
 ```
 
-ולמסך יודפס: `עובדו 3 שורות`.
+ולמסך יודפס: `Processed 3 lines`.
 
 נסו לבד! 👇
 
@@ -161,21 +161,21 @@ cherry
 
 input="$1"
 
-# בדיקת ארגומנט
+# Check the argument
 if [ -z "$input" ]; then
-    echo "שימוש: $0 <שם קובץ>"
+    echo "Usage: $0 <file name>"
     exit 1
 fi
 
-# בדיקת קיום הקובץ
+# Check the file exists
 if [ ! -f "$input" ]; then
-    echo "שגיאה: הקובץ $input לא קיים"
+    echo "Error: the file $input does not exist"
     exit 1
 fi
 
 output="${input}.numbered"
 
-# מתחילים קובץ פלט ריק
+# Start an empty output file
 > "$output"
 
 count=0
@@ -184,8 +184,8 @@ while read -r line; do
     echo "$count: $line" >> "$output"
 done < "$input"
 
-echo "עובדו $count שורות"
-echo "הפלט נשמר ב: $output"
+echo "Processed $count lines"
+echo "Output saved to: $output"
 ```
 
 הרצה ובדיקה:
