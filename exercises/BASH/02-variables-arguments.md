@@ -156,7 +156,7 @@ Number of items: 3
 
 date_str="2026-11-21"
 
-# Split the string into arguments using "-" as the separator
+# Set the field separator to "-", then split the string into arguments
 IFS='-'
 set -- $date_str
 
