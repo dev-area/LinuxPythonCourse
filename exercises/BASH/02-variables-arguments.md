@@ -157,7 +157,8 @@ Number of items: 3
 date_str="2026-11-21"
 
 # Split the string into arguments using "-" as the separator
-IFS='-' set -- $date_str
+IFS='-'
+set -- $date_str
 
 echo "Year:  $1"
 echo "Month: $2"
