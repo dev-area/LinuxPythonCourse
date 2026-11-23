@@ -13,6 +13,11 @@ error: disk full
 warning: low memory
 DEBUG: starting module
 David Cohen
+red green blue
+multiple    spaces   here
+START
+inside the block
+END
 ```
 
 נסה לפתור בעצמך לפני שאתה פותח את הפתרון. הפתרונות מוסתרים ב-`<details>` — לחץ עליהם כדי לחשוף.

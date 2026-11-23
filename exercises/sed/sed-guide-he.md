@@ -21,7 +21,14 @@ error: disk full
 warning: low memory
 DEBUG: starting module
 David Cohen
+red green blue
+multiple    spaces   here
+START
+inside the block
+END
 ```
+
+הקובץ תוכנן כך שכל פקודה במדריך תמצא על מה לפעול — למשל `cat`/`dog` להחלפות, `off` להחלפה מותנית, שורה ריקה למחיקה, `red`/`blue` להחלפת מילה, רצף רווחים לכיווץ, ובלוק `START`...`END` לעבודה על טווחים.
 
 אפשר ליצור אותו במהירות כך:
 
@@ -37,6 +44,11 @@ error: disk full
 warning: low memory
 DEBUG: starting module
 David Cohen
+red green blue
+multiple    spaces   here
+START
+inside the block
+END
 EOF
 ```
 
@@ -240,11 +252,14 @@ echo "a a a a" | sed 's/a/X/2g'
 ```bash
 # print all lines between START and END (inclusive)
 sed -n '/START/,/END/p' file.txt
+# START
+# inside the block
+# END
 
-# delete the whole block between two patterns
-sed '/BEGIN/,/END/d' file.txt
+# delete the whole block between START and END
+sed '/START/,/END/d' file.txt
 
-# replace only inside the range
+# replace only inside a range (illustrative — uses a separate HTML file)
 sed '/<body>/,/<\/body>/ s/old/new/g' page.html
 ```
 
