@@ -1,0 +1,10 @@
+The cat sat on the mat
+A cat and a dog played
+TODO: fix the config
+config: logging is off
+config: cache is off
+
+error: disk full
+warning: low memory
+DEBUG: starting module
+David Cohen
