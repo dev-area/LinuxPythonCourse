@@ -50,10 +50,10 @@ awk 'pattern { action }' file
 - **action** — מה לעשות (בתוך `{ }`; ברירת מחדל = `print`).
 
 ```bash
-# מדפיס כל שורה (כמו cat)
+# print every line (like cat)
 awk '{ print }' employees.txt
 
-# מדפיס רק שורות שבהן המחלקה היא eng
+# print only lines where the department is eng
 awk '$2 == "eng"' employees.txt
 ```
 
@@ -64,7 +64,7 @@ awk '$2 == "eng"' employees.txt
 `awk` מפצל כל שורה אוטומטית לפי רווחים. `$0` = כל השורה, `$1` = העמודה הראשונה וכו'.
 
 ```bash
-# מדפיס את העמודה הראשונה והשלישית
+# print the first and third columns
 awk '{ print $1, $3 }' employees.txt
 # name salary
 # Alice 9500
@@ -82,13 +82,13 @@ awk '{ print $1, $3 }' employees.txt
 - `NF` = מספר השדות בשורה (Number of Fields).
 
 ```bash
-# מדלג על שורת הכותרת (שורה 1)
+# skip the header line (line 1)
 awk 'NR > 1 { print $1 }' employees.txt
 
-# מדפיס את העמודה האחרונה בכל שורה
+# print the last column of each line
 awk '{ print $NF }' employees.txt
 
-# מוסיף מספר שורה בתחילת כל שורה
+# add a line number at the start of each line
 awk '{ print NR, $0 }' employees.txt
 ```
 
@@ -119,16 +119,16 @@ awk 'NR > 1 { printf "%-8s %-6s %6d\n", $1, $2, $3 }' employees.txt
 ## 4. תבניות וסינון
 
 ```bash
-# שורות שבהן המשכורת גדולה מ-8000
+# lines where the salary is greater than 8000
 awk 'NR > 1 && $3 > 8000 { print $1, $3 }' employees.txt
 
-# שורות שבהן המחלקה היא sales
+# lines where the department is sales
 awk '$2 == "sales"' employees.txt
 
-# שורות שמכילות את הטקסט "eng" (regex על כל השורה)
+# lines containing the text "eng" (regex over the whole line)
 awk '/eng/' employees.txt
 
-# שורות שבהן העמודה הראשונה מתחילה ב-A עד C
+# lines where the first column starts with A to C
 awk '$1 ~ /^[A-C]/' employees.txt
 ```
 
@@ -147,15 +147,15 @@ awk '$1 ~ /^[A-C]/' employees.txt
 - `END { }` — רץ **פעם אחת אחרי** כל השורות (סיכומים, סה"כ).
 
 ```bash
-# סכום כל המשכורות
+# sum of all salaries
 awk 'NR > 1 { sum += $3 } END { print "total:", sum }' employees.txt
 # total: 56700
 
-# ממוצע משכורות
+# average salary
 awk 'NR > 1 { s += $3; c++ } END { printf "avg: %.1f\n", s/c }' employees.txt
 # avg: 8100.0
 
-# כותרת משלנו + ספירת שורות
+# our own header + row count
 awk 'BEGIN { print "=== Report ===" } END { print "rows:", NR-1 }' employees.txt
 ```
 
@@ -164,11 +164,11 @@ awk 'BEGIN { print "=== Report ===" } END { print "rows:", NR-1 }' employees.txt
 ## 6. חישובים ואגרגציה
 
 ```bash
-# המשכורת הגבוהה ביותר
+# the highest salary
 awk 'NR > 1 { if ($3 > max) max = $3 } END { print "max:", max }' employees.txt
 # max: 12000
 
-# ספירת עובדים לפי תנאי
+# count employees matching a condition
 awk 'NR > 1 && $4 > 40 { c++ } END { print "over 40:", c }' employees.txt
 # over 40: 3
 ```
@@ -180,13 +180,13 @@ awk 'NR > 1 && $4 > 40 { c++ } END { print "over 40:", c }' employees.txt
 מערכים ב-`awk` ממופתחים לפי מחרוזת — מושלם לסיכום לפי קטגוריה.
 
 ```bash
-# ספירת עובדים בכל מחלקה
+# count employees in each department
 awk 'NR > 1 { count[$2]++ } END { for (d in count) print d, count[d] }' employees.txt
 # eng 3
 # hr 2
 # sales 2
 
-# סכום משכורות לכל מחלקה
+# sum of salaries per department
 awk 'NR > 1 { total[$2] += $3 } END { for (d in total) print d, total[d] }' employees.txt
 # eng 30300
 # hr 13100
@@ -203,11 +203,11 @@ awk 'NR > 1 { total[$2] += $3 } END { for (d in total) print d, total[d] }' empl
 - `OFS` = מפריד הפלט (Output Field Separator).
 
 ```bash
-# קלט מופרד בפסיקים (CSV)
+# comma-separated input (CSV)
 echo "a,b,c" | awk -F',' '{ print $2 }'
 # b
 
-# קריאה מופרדת ב-: והדפסה מופרדת ב-TAB
+# read separated by : and print separated by TAB
 echo "root:x:0:0" | awk -F':' 'BEGIN { OFS="\t" } { print $1, $3 }'
 # root	0
 ```
@@ -217,10 +217,10 @@ echo "root:x:0:0" | awk -F':' 'BEGIN { OFS="\t" } { print $1, $3 }'
 ## 9. תנאים ולולאות
 
 ```bash
-# if / else — תיוג לפי משכורת
+# if / else — tag by salary
 awk 'NR > 1 { if ($3 >= 8000) print $1, "high"; else print $1, "normal" }' employees.txt
 
-# לולאת for — הדפסת כל השדות בשורה
+# for loop — print every field in the line
 awk '{ for (i = 1; i <= NF; i++) print i, $i }' employees.txt
 ```
 
@@ -229,19 +229,19 @@ awk '{ for (i = 1; i <= NF; i++) print i, $i }' employees.txt
 ## 10. פונקציות שימושיות
 
 ```bash
-# length — אורך המחרוזת
+# length — string length
 awk '{ print $1, length($1) }' employees.txt
 
 # toupper / tolower
 awk 'NR > 1 { print toupper($2) }' employees.txt
 
-# substr(str, start, len) — חיתוך מחרוזת
+# substr(str, start, len) — slice a string
 echo "hello" | awk '{ print substr($0, 1, 3) }'   # hel
 
-# gsub(regex, replacement) — החלפה גלובלית בשורה
+# gsub(regex, replacement) — global replace within the line
 awk '{ gsub(/eng/, "ENGINEERING"); print }' employees.txt
 
-# split — פיצול מחרוזת למערך
+# split — split a string into an array
 echo "a-b-c" | awk '{ n = split($0, parts, "-"); print n, parts[2] }'   # 3 b
 ```
 
@@ -252,7 +252,7 @@ echo "a-b-c" | awk '{ n = split($0, parts, "-"); print n, parts[2] }'   # 3 b
 ### 1. חישוב ביניים בעמודה חדשה
 
 ```bash
-# מוסיף עמודה של מס (10% מהמשכורת)
+# add a tax column (10% of the salary)
 awk 'NR > 1 { printf "%-8s %d\n", $1, $3 * 0.1 }' employees.txt
 ```
 
@@ -276,7 +276,7 @@ awk 'NR > 1 && $3 > max { max = $3; who = $1 } END { print who, "earns the most:
 ### 4. סינון דו-שלבי (uniq לפי שדה)
 
 ```bash
-# מדפיס רק את המופע הראשון של כל מחלקה
+# print only the first occurrence of each department
 awk '!seen[$2]++' employees.txt
 ```
 
@@ -328,7 +328,7 @@ chmod +x sum.awk
 ### 3. העברת משתנה מבחוץ (`-v`)
 
 ```bash
-# מסנן לפי מחלקה שמעבירים בזמן ריצה
+# filter by a department passed in at runtime
 awk -v d=eng 'NR > 1 && $2 == d { print $1 }' employees.txt
 ```
 
