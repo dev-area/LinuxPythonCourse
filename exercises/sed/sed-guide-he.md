@@ -26,9 +26,10 @@ multiple    spaces   here
 START
 inside the block
 END
+path: /old/path/to/file
 ```
 
-הקובץ תוכנן כך שכל פקודה במדריך תמצא על מה לפעול — למשל `cat`/`dog` להחלפות, `off` להחלפה מותנית, שורה ריקה למחיקה, `red`/`blue` להחלפת מילה, רצף רווחים לכיווץ, ובלוק `START`...`END` לעבודה על טווחים.
+הקובץ תוכנן כך שכל פקודה במדריך תמצא על מה לפעול — למשל `cat`/`dog` להחלפות, `off` להחלפה מותנית, שורה ריקה למחיקה, `red`/`blue` להחלפת מילה, רצף רווחים לכיווץ, בלוק `START`...`END` לעבודה על טווחים, ושורת נתיב (`/old/path`) לדוגמת המפריד המותאם (`s#...#...#`).
 
 אפשר ליצור אותו במהירות כך:
 
@@ -49,6 +50,7 @@ multiple    spaces   here
 START
 inside the block
 END
+path: /old/path/to/file
 EOF
 ```
 
@@ -404,12 +406,19 @@ chmod +x upper.sed
 
 ```sed
 # report.sed — process a log file
-/^$/d                  ;# 1. drop empty lines
-s/^TODO:/[ ] TODO:/    ;# 2. mark TODO items with a checkbox
-/error/i >>> ATTENTION ;# 3. add a line before each error
-s/config/CONFIG/g      ;# 4. make config headers stand out
-$a --- end of report ---  ;# 5. add a footer at the end
+# 1. drop empty lines
+/^$/d
+# 2. mark TODO items with a checkbox
+s/^TODO:/[ ] TODO:/
+# 3. add a line before each error
+/error/i >>> ATTENTION
+# 4. make config headers stand out
+s/config/CONFIG/g
+# 5. add a footer at the end
+$a --- end of report ---
 ```
+
+> **חשוב:** בפקודות `a`, `i` ו-`c` כל שאר השורה נחשב לטקסט שמוסיפים — אי אפשר לשים הערת `;#` באותה שורה (היא תיכנס לתוך הטקסט). לכן ההערות כאן נמצאות בשורה נפרדת מעל כל פקודה. אצל `s///`, `d`, `p` לעומת זאת מותר `s/a/b/ ;# comment` באותה שורה.
 
 הרצה:
 
@@ -431,8 +440,8 @@ sed -f report.sed file.txt
 
 ```bash
 sed -n -f extract.sed file.txt
-# warning: low memory
 # error: disk full
+# warning: low memory
 ```
 
 ---

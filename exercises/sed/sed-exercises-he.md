@@ -18,6 +18,7 @@ multiple    spaces   here
 START
 inside the block
 END
+path: /old/path/to/file
 ```
 
 נסה לפתור בעצמך לפני שאתה פותח את הפתרון. הפתרונות מוסתרים ב-`<details>` — לחץ עליהם כדי לחשוף.
